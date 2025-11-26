@@ -10,12 +10,12 @@ const routes = [
     component: HomeView
   },
   { 
-    path: '/todos',
+    path: '/TodoItems',
     name: 'todos',
     component: TodosView
   },
   { 
-    path: '/todos/:id',
+    path: '/TodoItems/:id',
     name: 'todoDetail',
     component: TodoDetailView
   }

@@ -4,20 +4,20 @@ import { useRoute } from 'vue-router'
 import { useTodos } from '../composables/useTodos'
 
 const route = useRoute()
-const todoId = route.params.id as string // hämta id från routen
+const todoId = route.params.id // hämta id från routen
 
 const { todos, loading, error } = useTodos()
 
 
 const todo = computed(() => {
-  return todos.value.find(t => t.id === todoId) || null
+    return todos.value.find(t => t.id == todoId) || null
 })
 </script>
 
 <template>
     
     <h2 v-if="!loading && !error"><strong>ID: </strong>{{todo?.id}}</h2>
-    <h2 v-if="!loading && !error"><strong>Text: </strong>{{todo?.text}}</h2>
+    <h2 v-if="!loading && !error"><strong>Text: </strong>{{todo?.name}}</h2>
     <h2 v-if="!loading && !error"><strong>Completed?: </strong>{{todo?.completed}}</h2>
     <div v-if="loading">Laddar...</div>
     <div v-if="error">Whops!</div>

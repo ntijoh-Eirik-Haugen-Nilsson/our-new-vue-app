@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 const newTodoText = ref('')
 const emit = defineEmits<{
-  addTodo: [text: string]
+  addTodo: [name: string]
 }>()
 
 function handleSubmit() {

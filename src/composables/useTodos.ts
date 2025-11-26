@@ -1,18 +1,20 @@
 import { ref } from 'vue'
 import { onMounted } from 'vue'
 
-import type { Todo } from '../types/api-types'
+import type { TodoItem } from '/TodoApi/Models/TodoItem.cs'
 
 
 
 
 export function useTodos() { 
     
-        const todos = ref<Todo[]>([])
+        const todos = ref<TodoItem[]>([])
         const loading = ref<boolean>(false)
         const error = ref<string | null>(null)
 
-        const API_BASE = 'http://localhost:3000/api'
+        // const API_BASE = 'http://localhost:3000/api'
+        const API_BASE = 'https://localhost:7267/api'
+        
         
 
         onMounted(() => {
@@ -24,7 +26,7 @@ export function useTodos() {
 
         try {
             
-            const response = await fetch(`${API_BASE}/todos?delay=2000`)
+            const response = await fetch(`${API_BASE}/TodoItems?delay=2000`)
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
@@ -43,10 +45,10 @@ export function useTodos() {
             error.value = null
 
             try {
-                const response = await fetch(`${API_BASE}/todos`, {
+                const response = await fetch(`${API_BASE}/TodoItems`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text, completed: false })}
+                    body: JSON.stringify({ name: text, completed: false })}
                 )
 
                 if (!response.ok) {
@@ -62,26 +64,32 @@ export function useTodos() {
                 loading.value = false
             }
         }
-        async function toggleTodo(id: string) {
+        async function toggleTodo(id: number) {
             loading.value = true
             error.value = null
             
 
             try {
-                const response = await fetch(`${API_BASE}/todos/${id}`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
+                    const itemIndex = todos.value.findIndex(t => t.id === id)
+                    if (itemIndex < 0) return
+
+                    const updated = {
+                        ...todos.value[itemIndex],
+                        completed: !todos.value[itemIndex].completed
+                    }
+
+                const response = await fetch(`${API_BASE}/TodoItems/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updated)
+
                 })
 
                 if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
                 }
 
-                const updatedTodo = await response.json()
-                const itemIndex : number = todos.value.findIndex(t => t.id === id)
-                if (itemIndex !== -1) {
-                    todos.value[itemIndex] = updatedTodo
-                }
+               todos.value[itemIndex] = updated
             } catch (e) {
                 error.value = 'Kunde inte hämta todos'
                 console.error('Fetch error:', e)
@@ -90,13 +98,13 @@ export function useTodos() {
             }
         }
 
-        async function deleteTodo(id: string) {
+        async function deleteTodo(id: number) {
             loading.value = true
             error.value = null
             
 
             try {
-                const response = await fetch(`${API_BASE}/todos/${id}`, {
+                const response = await fetch(`${API_BASE}/TodoItems/${id}`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' }
                 })

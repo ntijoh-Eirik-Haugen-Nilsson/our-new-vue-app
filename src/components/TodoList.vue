@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import type { Todo } from '../types'
+import { TodoItem } from '/TodoApi/Models/TodoItem.cs'
 import { computed } from 'vue'
-import TodoItem from './TodoItem.vue'
+import TodoItemFile from './TodoItemFile.vue'
 import { ref } from 'vue'
+
 
 const filteredTodos = computed(() => {
     if (searchTerm.value.trim() === '') {
         return props.todos;
     } else {
-        return props.todos.filter(t => t.text.toLowerCase().includes(searchTerm.value))
+        return props.todos.filter(t => t.name.toLowerCase().includes(searchTerm.value))
 
     }
 })
@@ -16,17 +17,17 @@ const filteredTodos = computed(() => {
 
 
 const searchTerm = ref('')
-const props = defineProps<{ todos: Todo[] }>()
+const props = defineProps<{ todos: TodoItem[] }>()
 const emit = defineEmits<{
-  toggleCompletion: [id: string]
-  delete: [id: string]
+  toggleCompletion: [id: number]
+  delete: [id: number]
 }>()
 
-function handleToggle(id: string) {
+function handleToggle(id: number) {
     emit('toggleCompletion', id) 
 }
 
-function handleDelete(id: string) {
+function handleDelete(id: number) {
     emit('delete', id)
 }
 </script>
@@ -34,9 +35,9 @@ function handleDelete(id: string) {
 <template>
   <div>
     <input v-model="searchTerm" type="text" placeholder="Sök todos..."></input>
-    <TodoItem v-for="todo in filteredTodos" :key="todo.id" :todo="todo" @toggleCompletion="handleToggle" @delete="handleDelete">
+    <TodoItemFile v-for="todo in filteredTodos" :key="todo.id" :todo="todo" @toggleCompletion="handleToggle" @delete="handleDelete">
         
-    </TodoItem>
+    </TodoItemFile>
 
 
   </div>
