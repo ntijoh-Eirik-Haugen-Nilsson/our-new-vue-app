@@ -19,9 +19,9 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <p :class="{ completed: todo.completed }"> {{ todo.name }}
+    <p style="margin: 20px;" :class="{ completed: todo.completed }"> {{ todo.name }}
             <input type="checkbox" @change.prevent="handleToggle" :checked ="todo.completed"></input>
-            <button type="button" @click="handleDelete">Delete</button>
+            <button style="background-color: red" type="button" @click="handleDelete">Ta bort</button>
             <router-link :to="{ name: 'todoDetail', params: { id: todo.id } }">  Detaljer </router-link>
     </p>
 

@@ -18,8 +18,7 @@ function handleSubmit() {
 <template>
   <form @submit.prevent="handleSubmit">
     <input v-model="newTodoText" placeholder="Vad behöver göras?" type="text"></input>
-    <button type="submit">Lägg till</button>
-    
+    <button style="background-color: green; margin: 10px" type="submit">Lägg till</button>
   </form>
 </template>
 

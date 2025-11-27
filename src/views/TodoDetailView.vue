@@ -18,7 +18,7 @@ const todo = computed(() => {
     
     <h2 v-if="!loading && !error"><strong>ID: </strong>{{todo?.id}}</h2>
     <h2 v-if="!loading && !error"><strong>Text: </strong>{{todo?.name}}</h2>
-    <h2 v-if="!loading && !error"><strong>Completed?: </strong>{{todo?.completed}}</h2>
+    <h2 v-if="!loading && !error"><strong>Completed: </strong>{{todo?.completed}}</h2>
     <div v-if="loading">Laddar...</div>
     <div v-if="error">Whops!</div>
     

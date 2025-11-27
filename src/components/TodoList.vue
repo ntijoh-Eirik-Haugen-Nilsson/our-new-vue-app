@@ -9,8 +9,7 @@ const filteredTodos = computed(() => {
     if (searchTerm.value.trim() === '') {
         return props.todos;
     } else {
-        return props.todos.filter(t => t.name.toLowerCase().includes(searchTerm.value))
-
+        return props.todos.filter(t => t.name.includes(searchTerm.value))
     }
 })
 
