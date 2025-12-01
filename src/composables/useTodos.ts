@@ -40,7 +40,7 @@ export function useTodos() {
             loading.value = false
         }
     }
-        async function addTodo(text: string) {
+        async function addTodo(text: string, category: string) {
             loading.value = true
             error.value = null
 
@@ -48,7 +48,7 @@ export function useTodos() {
                 const response = await fetch(`${API_BASE}/TodoItems`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: text, completed: false })}
+                    body: JSON.stringify({ name: text, completed: false, category: category })}
                 )
 
                 if (!response.ok) {

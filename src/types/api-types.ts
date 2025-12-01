@@ -6,6 +6,12 @@ export interface Todo {
   id: string;
   text: string;
   completed: boolean;
+  category: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
 }
 
 export interface ErrorResponse {
@@ -13,3 +19,5 @@ export interface ErrorResponse {
 }
 
 export type TodosResponse = Todo[];
+
+export type CategoryResponse = Category[];

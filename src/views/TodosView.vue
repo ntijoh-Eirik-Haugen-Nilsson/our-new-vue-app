@@ -5,9 +5,12 @@ import type { Todo } from '../types/api-types';
 import TodoList from '../components/TodoList.vue'
 import TodoInput from '../components/TodoInput.vue'
 import { useTodos } from '../composables/useTodos'
+import { useCategories } from '../composables/useCategories'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const { todos, loading, error, addTodo, toggleTodo, deleteTodo } = useTodos()
+const { addCategory } = useCategories()
+const { deleteCategory } = useCategories()
 
 const filteredTodos = computed<Todo[]>(() => {
     const filter = route.query.filter
@@ -70,11 +73,14 @@ const filteredTodos = computed<Todo[]>(() => {
         Aktiva |
         </router-link>
         <router-link :to="{ name: 'todos', query: { filter: 'completed' } }">
-        Färdiga
+        Färdiga |
+        </router-link>
+        <router-link :to="{ name: 'todos', query: { filter: 'pet' } }">
+          Pet
         </router-link>
     </nav>
 
-  <TodoInput @addTodo="addTodo" />
+  <TodoInput @addTodo="addTodo" @addCategory="addCategory" />
   <div v-if="loading">Laddar...</div>
   <div v-if="error">Whops!</div>
   <TodoList v-if="!loading && !error" :todos ="filteredTodos" @toggleCompletion="toggleTodo" @delete="deleteTodo"/>

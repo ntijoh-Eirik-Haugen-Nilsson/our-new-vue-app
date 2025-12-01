@@ -10,4 +10,5 @@ public class TodoContext : DbContext
     }
 
     public DbSet<TodoItem> TodoItems { get; set; } = null!;
+    public DbSet<CategoryItem> CategoryItems { get; set; } = null!;
 }
